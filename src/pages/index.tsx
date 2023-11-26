@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 
 import { api, RouterOutputs } from "~/utils/api";
+import { useState } from "react";
 
 export default function Home() {
   const { data: allResources } = api.resource.getAll.useQuery();
@@ -12,22 +13,25 @@ export default function Home() {
   interface testPropType {
     requirement: string;
   }
-  const testProp = {
-    requirement: "blindness"
-  }
+
+  const [filterCriteria, setFilterCriteria] = useState({
+      requirement: "blindness"
+  });
 
 
 
   type CriteriaObj = RouterOutputs["criteria"]["getAll"][number];
   const CriteriaView = (props: CriteriaObj) => {
     const { id, requirement } = props;
-    const handleClick = (requirement: string) => {
-      
+    const handleClick = (specificReq: string) => {
+      setFilterCriteria({
+        requirement: specificReq
+      })
     }
 
     return (
       <div key={id}>
-        <button id={requirement} onClick={() => handleClick(requirement)}>{requirement}</button>
+        <button id={requirement} onClick={() => handleClick(requirement)} className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">{requirement}</button>
       </div>
     )
   }
@@ -48,8 +52,8 @@ export default function Home() {
 
     return (
       <div>
-        <h1>Filtered By Criteria</h1>
-        <div>
+        <h1 className="text-xl font-bold">Filtered By Criteria: {filterCriteria.requirement}</h1>
+        <div className="flex flex-col items-center">
           {filteredWithCriteria?.resources.map((resource) => (
             <ResourceView {...resource} key={resource.id} />
           ))}
@@ -66,34 +70,25 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex h-screen justify-center">
-        <div className="h-full border-x w-full md:max-w-2xl">
+        <div className="h-full border-x w-full md:max-w-2xl flex flex-col items-center gap-4">
           <div>
             {!user.isSignedIn && <SignInButton />}
             {!!user.isSignedIn && <SignOutButton />}
           </div>
-
-          {/* <div>
-            {allResources?.map((resource1) => (<div key={resource1.id}>{resource1.name}</div>))}
-          </div>
-          <div>
-            {filterStatus === "loading" && <div>Is loading...</div>}
-            {filteredResources?.map((resource) => (<div key={resource.id}>{resource.description}</div>))}
-          </div> */}
-
-          <div>
+          <div className="flex flex-col items-center">
             {allCriteria?.map((oneCriteria) => (
               <CriteriaView {...oneCriteria} key={oneCriteria.id} />
             ))}
           </div>
           <div>
-              <h1>Available Resources:</h1>
-              <div>
+              <h1 className="text-xl font-bold">Available Resources:</h1>
+              <div className="flex flex-col items-center">
                 {allResources?.map((resource) => (
                   <ResourceView {...resource} key={resource.id} />
                 ))}
               </div>
           </div>
-          <ResourceList {...testProp} />
+          <ResourceList {...filterCriteria} />
         </div>
       </main>
     </>
