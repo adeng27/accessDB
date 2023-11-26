@@ -6,17 +6,54 @@ import { api, RouterOutputs } from "~/utils/api";
 
 export default function Home() {
   const { data: allResources } = api.resource.getAll.useQuery();
-  const { data: filteredResources, status: filterStatus, error: filterError } = api.resource.filter.useQuery({ name: "dickens" })
   const { data: allCriteria } = api.criteria.getAll.useQuery();
   const user = useUser();
 
+  interface testPropType {
+    requirement: string;
+  }
+  const testProp = {
+    requirement: "blindness"
+  }
+
+
+
   type CriteriaObj = RouterOutputs["criteria"]["getAll"][number];
-  
   const CriteriaView = (props: CriteriaObj) => {
-    const { id, disabilityType } = props;
+    const { id, requirement } = props;
+    const handleClick = (requirement: string) => {
+      
+    }
+
     return (
       <div key={id}>
-        {disabilityType ? disabilityType : "sugma"}
+        <button id={requirement} onClick={() => handleClick(requirement)}>{requirement}</button>
+      </div>
+    )
+  }
+
+  type ResourceObj = RouterOutputs['resource']['getAll'][number];
+  const ResourceView = (props: ResourceObj) => {
+    const { id, name } = props;
+    return (
+      <div key={id}>
+        {name}
+      </div>
+    )
+  }
+
+  const ResourceList = (props: testPropType) => {
+    const { requirement } = props
+    const { data: filteredWithCriteria } = api.criteria.filterResources.useQuery({ requirement });
+
+    return (
+      <div>
+        <h1>Filtered By Criteria</h1>
+        <div>
+          {filteredWithCriteria?.resources.map((resource) => (
+            <ResourceView {...resource} key={resource.id} />
+          ))}
+        </div>
       </div>
     )
   }
@@ -34,18 +71,29 @@ export default function Home() {
             {!user.isSignedIn && <SignInButton />}
             {!!user.isSignedIn && <SignOutButton />}
           </div>
-          <div>
+
+          {/* <div>
             {allResources?.map((resource1) => (<div key={resource1.id}>{resource1.name}</div>))}
           </div>
           <div>
             {filterStatus === "loading" && <div>Is loading...</div>}
             {filteredResources?.map((resource) => (<div key={resource.id}>{resource.description}</div>))}
-          </div>
+          </div> */}
+
           <div>
             {allCriteria?.map((oneCriteria) => (
               <CriteriaView {...oneCriteria} key={oneCriteria.id} />
             ))}
           </div>
+          <div>
+              <h1>Available Resources:</h1>
+              <div>
+                {allResources?.map((resource) => (
+                  <ResourceView {...resource} key={resource.id} />
+                ))}
+              </div>
+          </div>
+          <ResourceList {...testProp} />
         </div>
       </main>
     </>

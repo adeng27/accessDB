@@ -42,14 +42,8 @@ model Organization {
 }
 
 model Criteria {
-  id             String  @id @default(cuid())
-  geographical   String?
-  disabilityType String?
-  age            Int?
-  academics      String?
-  race           String?
-  gender         String?
-  sexuality      String?
+  id          String @id @default(cuid())
+  requirement String @unique
 
   resources Resource[]
 }

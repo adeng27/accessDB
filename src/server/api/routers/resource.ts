@@ -7,10 +7,12 @@ export const resourceRouter = createTRPCRouter({
     return ctx.db.resource.findMany();
   }),
 
-  filter: publicProcedure.input(z.object({ name: z.string() })).query(({ ctx, input }) => {
+  filter: publicProcedure.input(z.array(z.string())).query(({ ctx, input }) => {
     return ctx.db.resource.findMany({
       where: {
-        name: input.name,
+        name: {
+          in: input,
+        },
       },
     })
   }),
