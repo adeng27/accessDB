@@ -41,7 +41,7 @@ export default function Home() {
   }
 
   const [newFilterCriteria, setNewFilterCriteria] = useState({
-    requirements: []
+    requirements: [""]
   })
 
   const NewResourceList = (props: {requirements : string[]}) => {
