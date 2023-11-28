@@ -10,22 +10,16 @@ export default function Home() {
   const { data: allCriteria } = api.criteria.getAll.useQuery();
   const user = useUser();
 
-  interface testPropType {
-    requirement: string;
-  }
-
-  const [filterCriteria, setFilterCriteria] = useState({
-      requirement: "blindness"
-  });
-
-
-
   type CriteriaObj = RouterOutputs["criteria"]["getAll"][number];
   const CriteriaView = (props: CriteriaObj) => {
     const { id, requirement } = props;
+    
     const handleClick = (specificReq: string) => {
-      setFilterCriteria({
-        requirement: specificReq
+      const newReqs = newFilterCriteria.requirements;
+      if (newReqs.includes(specificReq))  newReqs.splice(newReqs.indexOf(specificReq), 1)
+      else                                newReqs.push(specificReq);
+      setNewFilterCriteria({
+        requirements: newReqs
       })
     }
 
@@ -46,17 +40,45 @@ export default function Home() {
     )
   }
 
-  const ResourceList = (props: testPropType) => {
-    const { requirement } = props
-    const { data: filteredWithCriteria } = api.criteria.filterResources.useQuery({ requirement });
+  const [newFilterCriteria, setNewFilterCriteria] = useState({
+    requirements: []
+  })
 
+  const NewResourceList = (props: {requirements : string[]}) => {
+
+    type foundResourcesType = RouterOutputs["criteria"]["findResources"]
+    const organizeResources = ( resourceList: foundResourcesType ) => {
+      const organizedObj: {[key: string] : number} = {};
+      resourceList?.map((resource) => (
+        resource.resources?.map((actualResource) => (
+          organizedObj[actualResource.name] ? organizedObj[actualResource.name] += 1 : organizedObj[actualResource.name] = 1
+        ))
+      ))
+  
+      const sortedResources = Object.entries(organizedObj)
+        .sort((a, b) => b[1] - a[1]) // Sort in descending order by count
+        .map(([resource]) => resource); // Extract keys (resources) after sorting
+  
+      return sortedResources;
+    }
+
+    const { data: filteredWithCriteria } = api.criteria.findResources.useQuery(props);
+    let resourceNames: string[] = [];
+    if (typeof filteredWithCriteria !== "undefined") {
+      resourceNames = organizeResources(filteredWithCriteria);
+    } 
+    
     return (
       <div>
-        <h1 className="text-xl font-bold">Filtered By Criteria: {filterCriteria.requirement}</h1>
+        <h1 className="text-xl font-bold">Filtered By Criteria: </h1>
         <div className="flex flex-col items-center">
-          {filteredWithCriteria?.resources.map((resource) => (
-            <ResourceView {...resource} key={resource.id} />
-          ))}
+          {
+            resourceNames.map((resourceName) => (
+              <div key={resourceName}>
+                {resourceName}
+              </div>
+            ))
+          }
         </div>
       </div>
     )
@@ -88,7 +110,9 @@ export default function Home() {
                 ))}
               </div>
           </div>
-          <ResourceList {...filterCriteria} />
+          <div>
+            <NewResourceList {...newFilterCriteria} />
+          </div>
         </div>
       </main>
     </>
