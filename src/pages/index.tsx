@@ -8,6 +8,7 @@ import { useState } from "react";
 export default function Home() {
   const { data: allResources } = api.resource.getAll.useQuery();
   const { data: allCriteria } = api.criteria.getAll.useQuery();
+  const { mutate } = api.resource.addResource.useMutation();
   const user = useUser();
 
   type CriteriaObj = RouterOutputs["criteria"]["getAll"][number];
@@ -112,6 +113,9 @@ export default function Home() {
           </div>
           <div>
             <NewResourceList {...newFilterCriteria} />
+          </div>
+          <div>
+            <button onClick={() => mutate({ name: "MICHAEL", description: "LIU", providedBenefit: "LOVE" })}>ADD RESOURCE</button>
           </div>
         </div>
       </main>
