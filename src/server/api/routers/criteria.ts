@@ -7,17 +7,6 @@ export const criteriaRouter = createTRPCRouter({
     return ctx.db.criteria.findMany();
   }),
 
-  // filterResources: publicProcedure.input(z.object({ requirement: z.string() })).query(({ctx, input}) => {
-  //   return ctx.db.criteria.findFirstOrThrow({
-  //       where: {
-  //         requirement: input.requirement,
-  //       },
-  //       select: {
-  //         resources: true,
-  //       }
-  //   })
-  // }),
-
   findResources: publicProcedure.input(z.object({ requirements: z.array( z.string() ) })).query(({ctx, input}) => {
     return ctx.db.criteria.findMany({
       where: {

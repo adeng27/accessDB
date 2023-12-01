@@ -27,8 +27,8 @@ model Resource {
   name            String
   organizationId  String
   organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  description     String
-  providedBenefit String
+  description     String       @db.VarChar(300)
+  providedBenefit String       @db.VarChar(240)
   dueDate         DateTime?
   criteria        Criteria[]
 
