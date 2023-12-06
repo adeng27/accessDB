@@ -11,35 +11,26 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([name])
-}
-
 model Resource {
   id              String       @id @default(cuid())
   addedAt         DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
   name            String
-  organizationId  String
-  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  // organizationId  String
+  // organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   description     String       @db.VarChar(300)
   providedBenefit String       @db.VarChar(240)
   dueDate         DateTime?
   criteria        Criteria[]
 
-  @@index([organizationId])
+  // @@index([organizationId])
 }
 
-model Organization {
-  id        String     @id @default(cuid())
-  name      String     @unique
-  resources Resource[]
-}
+// model Organization {
+//   id        String     @id @default(cuid())
+//   name      String     @unique
+//   resources Resource[]
+// }
 
 model Criteria {
   id          String @id @default(cuid())
