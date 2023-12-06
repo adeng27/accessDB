@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 
 import { api, RouterOutputs } from "~/utils/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //grants already added to db
 // const grants = [
@@ -243,8 +243,13 @@ export default function Home() {
   const { data: allResources } = api.resource.getAll.useQuery();
   const { data: allCriteria } = api.criteria.getAll.useQuery();
   //addResource function, if you want to use it uncomment the procedure in resource router
-  // const { mutate } = api.resource.addResource.useMutation();
+  const { mutate } = api.resource.addResource.useMutation();
   const user = useUser();
+
+  // useEffect(() => {
+  //   console.log("FUCK")
+  //   mutate({ name: "pls work", description: "description", providedBenefit: "providedBenefit" });
+  // }, [])
 
   type CriteriaObj = RouterOutputs["criteria"]["getAll"][number];
   const CriteriaView = (props: CriteriaObj) => {
@@ -320,7 +325,7 @@ export default function Home() {
     )
   }
 
-  //Method to add recorsd to db
+  //Method to add records to db
   // const addRecords = () => {
   //   for (let i = 0; i < grants.length; i++) {
   //     const grantName = grants[i]?.name;
@@ -330,6 +335,11 @@ export default function Home() {
   //       mutate({ name: grantName, description: grantDes, providedBenefit: grantBenefit });
   //     }
   //   }
+  //   console.log("Donezo")
+  // }
+
+  // const addRecords = (name: string, description: string, providedBenefit: string) => {
+  //   mutate({ name: name, description: description, providedBenefit: providedBenefit });
   //   console.log("Donezo")
   // }
 
@@ -362,6 +372,9 @@ export default function Home() {
           <div>
             <NewResourceList {...newFilterCriteria} />
           </div>
+          {/* <div>
+            <button onClick={() => addRecords("Test for pinecone", "I hope this posts to planetscale and pinecone", "happiness")}>CLICK ME IF YOU DARE</button>
+          </div> */}
         </div>
       </main>
     </>
