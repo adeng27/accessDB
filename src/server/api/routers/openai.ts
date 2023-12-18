@@ -23,11 +23,13 @@ export const openaiRouter = createTRPCRouter({
     const relevantIds = vectorQueryResponse.matches.map((match) => match.id);
     const relevantResources = await getResourcesByIds(relevantIds, ctx.db);
 
+    console.log(relevantResources)
+
     const systemMessage: ChatCompletionMessageParam = {
         role: "system",
         content: "You are an assistant that finds resources for disabilities. " + 
-            "You answer user's questions based off relevant resources. " + 
-            "The relevant resources are: " + 
+            "You answer user's questions only based off the provided resources. " + 
+            "The provided resources are: " + 
             relevantResources?.map((resource) => `Name: ${resource.name}\nDescription: ${resource.description}\nBenefit: ${resource.providedBenefit}`).join("\n\n")
     }
 
