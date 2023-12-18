@@ -2,7 +2,7 @@ import { Message } from "ai";
 // import { useChat } from "ai/react";
 import { useState } from "react";
 import { api, RouterOutputs } from "~/utils/api";
-import { LoadingSpinner } from "./Loading";
+import { LoadingSpinner } from "./loading";
 import { ResourceCard } from "./card";
 
 export default function AIChat() {
