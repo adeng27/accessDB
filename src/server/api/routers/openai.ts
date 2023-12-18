@@ -36,8 +36,7 @@ export const openaiRouter = createTRPCRouter({
         messages: [systemMessage, {role: "user", content: prompt}]
     })
 
-    console.log(response);
-    console.log(response.choices[0]?.message.content);
+    return response;
   }),
 });
 
