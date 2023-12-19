@@ -17,7 +17,7 @@ export const openaiRouter = createTRPCRouter({
     const embedding = await getEmbedding(prompt);
     const vectorQueryResponse = await resourcesIndex.query({
         vector: embedding,
-        topK: 4
+        topK: 8
     });
 
     const relevantIds = vectorQueryResponse.matches.map((match) => match.id);

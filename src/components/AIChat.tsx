@@ -1,9 +1,10 @@
 import { Message } from "ai";
 // import { useChat } from "ai/react";
 import { useState } from "react";
-import { api, RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 import { LoadingSpinner } from "./loading";
 import { ResourceCard } from "./card";
+import ViewResources from "./resources";
 
 export default function AIChat(props: {isSignedIn: boolean}) {
     interface resourceType {
@@ -39,10 +40,12 @@ export default function AIChat(props: {isSignedIn: boolean}) {
     const [aiMessage, setAiMessage] = useState("");
 
     const resourcesInit: resourceType[] = [];
-    const [resources, setResources] = useState(resourcesInit)
+    const [resources, setResources] = useState(resourcesInit);
+
+    const [startResource, setStartResource] = useState(0);
 
     return (
-        <div className="w-full flex flex-col gap-4 justify-cente">
+        <div className="w-full flex flex-col gap-4 justify-center">
             <div>Ask the AI:</div>
             <form onSubmit={(e)=> {
                 e.preventDefault();
@@ -66,6 +69,7 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                     <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">SEND</button>
                 </div>
             </form>
+
             <div className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
                     {userMessage}
@@ -74,25 +78,9 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                     {!isLoading ? aiMessage : (<LoadingSpinner size={36} />)}
                 </div>
             </div>
-            <div className="flex flex-col gap-4 items-center">
-                <div className="flex justify-center gap-8">
-                    {resources.map((resource, index) => ( index % 2 !== 0 &&
-                        <ResourceCard 
-                            name={resource.name} 
-                            description={resource.description}  
-                            benefit={resource.benefit}
-                            key={resource.id}
-                        />))}
-                </div>
-                <div className="flex justify-center gap-8">
-                    {resources.map((resource, index) => ( index % 2 === 0 &&
-                        <ResourceCard 
-                            name={resource.name} 
-                            description={resource.description}  
-                            benefit={resource.benefit}
-                            key={resource.id}
-                        />))}
-                </div>
+
+            <div>
+                <ViewResources resources={resources} />
             </div>
         </div>
     )
