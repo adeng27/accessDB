@@ -3,11 +3,11 @@ import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { z } from "zod";
 import openai, { getEmbedding } from "~/lib/openai";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
 import { resourcesIndex } from "~/server/pinecone";
 
 export const openaiRouter = createTRPCRouter({
-  chatCompletion: publicProcedure.input(
+  chatCompletion: privateProcedure.input(
     z.object({
         prompt: z.string(),
     })
