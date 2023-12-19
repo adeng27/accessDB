@@ -1,10 +1,7 @@
-import { Message } from "ai";
-// import { useChat } from "ai/react";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { LoadingSpinner } from "./loading";
-import { ResourceCard } from "./card";
-import ViewResources from "./resources";
+import { KeywordResources, ViewResources } from "./resources";
 
 export default function AIChat(props: {isSignedIn: boolean}) {
     interface resourceType {
@@ -30,9 +27,6 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                 resources.push(resource);
                 setResources(resources);
             }
-        },
-        onError: (error) => {
-
         }
     });
     const [prompt, setPrompt] = useState("");
@@ -42,7 +36,42 @@ export default function AIChat(props: {isSignedIn: boolean}) {
     const resourcesInit: resourceType[] = [];
     const [resources, setResources] = useState(resourcesInit);
 
-    const [startResource, setStartResource] = useState(0);
+    const [selectedButton, setSelectedButton] = useState([true, false, false]);
+
+    const ButtonGroup = () => {
+        return (
+            <div className="inline-flex rounded-md shadow-sm" role="group">
+                <button 
+                    type="button" 
+                    onClick={() => {
+                        setSelectedButton([true, false, false]);
+                    }}
+                    disabled={selectedButton[0]}
+                    className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 disabled:bg-gray-600 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+                >
+                    AI Matches
+                </button>
+                <button 
+                    type="button" 
+                    onClick={() => setSelectedButton([false, true, false])}
+                    disabled={selectedButton[1]}
+                    className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 disabled:bg-gray-600 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+                >
+                    Keyword Search
+                </button>
+                <button 
+                    type="button" 
+                    onClick={() => {
+                        setSelectedButton([false, false, true]);
+                    }}
+                    disabled={selectedButton[2]}
+                    className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 disabled:bg-gray-600 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+                >
+                    Pinned Resources
+                </button>
+            </div>
+        )
+    }
 
     return (
         <div className="w-full flex flex-col gap-4 justify-center">
@@ -79,8 +108,10 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                 </div>
             </div>
 
-            <div>
-                <ViewResources resources={resources} />
+            <div className="flex flex-col gap-8 items-center">
+                <ButtonGroup />
+                {selectedButton[0] && <ViewResources resources={resources} />}
+                {selectedButton[1] && <KeywordResources userMessage={userMessage} />}
             </div>
         </div>
     )
