@@ -22,8 +22,16 @@ model Resource {
   providedBenefit String       @db.VarChar(240)
   dueDate         DateTime?
   criteria        Criteria[]
+  users           User[]
 
   // @@index([organizationId])
+}
+
+model User {
+  id        String
+  resources Resource[]
+
+  @@id(id)
 }
 
 // model Organization {
