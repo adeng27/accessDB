@@ -1,6 +1,5 @@
 import Head from "next/head";
-import Link from "next/link";
-import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 import { api, RouterOutputs } from "~/utils/api";
 import { useState } from "react";

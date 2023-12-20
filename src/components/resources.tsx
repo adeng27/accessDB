@@ -33,6 +33,7 @@ export const ViewResources = (props: {resources: resourceType[]}) => {
                 <div className="flex justify-center gap-8">
                     {resources.map((resource, index) => ( (index % 2 !== 0 && index < startResource + 4 && index >= startResource) &&
                         <ResourceCard 
+                            id={resource.id}
                             name={resource.name} 
                             description={resource.description}  
                             benefit={resource.benefit}
@@ -42,6 +43,7 @@ export const ViewResources = (props: {resources: resourceType[]}) => {
                 <div className="flex justify-center gap-8">
                     {resources.map((resource, index) => ( (index % 2 === 0 && index < startResource + 4 && index >= startResource) &&
                         <ResourceCard 
+                            id={resource.id}
                             name={resource.name} 
                             description={resource.description}  
                             benefit={resource.benefit}
@@ -86,8 +88,6 @@ export const KeywordResources = (props: {userMessage: string}) => {
 
     const [resources, setResources] = useState(readyResources(keywordResults))
 
-    console.log(keywordResults, resources);
-
     useEffect(() => {
         if (typeof keywordResults !== "undefined") setResources(readyResources(keywordResults));
     }, [props.userMessage, isLoading]);
@@ -96,6 +96,29 @@ export const KeywordResources = (props: {userMessage: string}) => {
         <div>
             {isLoading && <LoadingSpinner />}
             {resources && <ViewResources resources={resources} />}
+        </div>
+    )
+}
+
+export const PinnedResources = () => {
+    const { data: pinned, isLoading } = api.resource.findPinned.useQuery();
+
+    if (typeof pinned === "undefined") return;
+    const modifiedPinned: resourceType[] = [];
+    for (let i = 0; i < pinned.length; i++) {
+        const resource: resourceType = {
+            id: pinned[i]?.id,
+            name: pinned[i]?.name,
+            description: pinned[i]?.description,
+            benefit: pinned[i]?.providedBenefit
+        }
+        modifiedPinned.push(resource);
+    }
+    
+    return (
+        <div>
+            {isLoading && <LoadingSpinner />}
+            {pinned && <ViewResources resources={modifiedPinned} />}
         </div>
     )
 }

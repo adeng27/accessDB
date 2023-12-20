@@ -57,9 +57,11 @@ export const resourceRouter = createTRPCRouter({
     });
 
     let curPinned = cur.pinnedBy;
+    let pin = false;
 
     if (curPinned?.indexOf(userId) === -1) {
       curPinned = curPinned + userId;
+      pin = true;
     } else if (curPinned) {
       const ind = curPinned.indexOf(userId);
       curPinned = curPinned.substring(0, ind) + curPinned.substring(ind + userId.length);
@@ -70,10 +72,7 @@ export const resourceRouter = createTRPCRouter({
       data: { pinnedBy: curPinned }
     })
 
-    const temp = await ctx.db.resource.findFirst({
-      where: { id: input }
-    })
-    console.log(temp)
+    return pin;
   }),
 
   findPinned: privateProcedure.query(async ({ ctx }) => {
@@ -85,5 +84,19 @@ export const resourceRouter = createTRPCRouter({
         }
       },
     })
+  }),
+
+  isPinned: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const userId = ctx.userId;
+    const result = await ctx.db.resource.findFirst({
+      where: {
+        AND: [
+          { id: input },
+          { pinnedBy: { contains: userId } }
+        ]
+      }
+    })
+    if (result) return true;
+    return false;
   })
 });
