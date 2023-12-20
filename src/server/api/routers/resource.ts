@@ -9,16 +9,6 @@ export const resourceRouter = createTRPCRouter({
     return ctx.db.resource.findMany();
   }),
 
-  // filter: publicProcedure.input(z.array(z.string())).query(async ({ ctx, input }) => {
-  //   const result = await ctx.db.resource.findMany({
-  //     where: {
-  //       description: {contains: "brain"}
-  //     },
-  //   })
-  //   console.log("HERE ", result);
-  //   return result;
-  // }),
-
   addResource: publicProcedure.input(z.object({
     name: z.string(), 
     description: z.string(), 
@@ -29,7 +19,7 @@ export const resourceRouter = createTRPCRouter({
         name: input.name,
         description: input.description,
         providedBenefit: input.providedBenefit,
-
+        pinnedBy: "",
         // organizationId: "clpemeppo0000rg2v03lp9ocu"
       }
     })
@@ -56,6 +46,43 @@ export const resourceRouter = createTRPCRouter({
           { description: { contains: input }, },
           { providedBenefit: { contains: input } },
         ]
+      },
+    })
+  }),
+
+  pin: privateProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    const userId = ctx.userId;
+    const cur = await ctx.db.resource.findFirstOrThrow({
+      where: {id: input},
+    });
+
+    let curPinned = cur.pinnedBy;
+
+    if (curPinned?.indexOf(userId) === -1) {
+      curPinned = curPinned + userId;
+    } else if (curPinned) {
+      const ind = curPinned.indexOf(userId);
+      curPinned = curPinned.substring(0, ind) + curPinned.substring(ind + userId.length);
+    }
+
+    await ctx.db.resource.update({
+      where: { id: input },
+      data: { pinnedBy: curPinned }
+    })
+
+    const temp = await ctx.db.resource.findFirst({
+      where: { id: input }
+    })
+    console.log(temp)
+  }),
+
+  findPinned: privateProcedure.query(async ({ ctx }) => {
+    const userId = ctx.userId;
+    return await ctx.db.resource.findMany({
+      where: {
+        pinnedBy: {
+          contains: userId
+        }
       },
     })
   })
