@@ -3,6 +3,7 @@ import { api } from "~/utils/api";
 import { LoadingSpinner } from "./loading";
 import { KeywordResources, PinnedResources, ViewResources } from "./resources";
 import { useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
 
 export default function AIChat(props: {isSignedIn: boolean}) {
     interface resourceType {
@@ -28,6 +29,9 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                 resources.push(resource);
                 setResources(resources);
             }
+        },
+        onError: () => {
+            toast.error("Query failed, please try again later!")
         }
     });
     const [prompt, setPrompt] = useState("");

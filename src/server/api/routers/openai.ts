@@ -28,6 +28,8 @@ export const openaiRouter = createTRPCRouter({
     const { success } = await ratelimit.limit(userId);
     if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
 
+    if (prompt == "") throw new TRPCError({ code: "BAD_REQUEST" });
+
     const embedding = await getEmbedding(prompt);
     const vectorQueryResponse = await resourcesIndex.query({
         vector: embedding,
