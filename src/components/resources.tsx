@@ -29,28 +29,37 @@ export const ViewResources = (props: {resources: resourceType[]}) => {
                     Go back
                 </button>
             </div>
-            <div className="flex flex-col gap-4 items-center">
-                <div className="flex justify-center gap-8">
-                    {resources.map((resource, index) => ( (index % 2 !== 0 && index < startResource + 4 && index >= startResource) &&
-                        <ResourceCard 
-                            id={resource.id}
-                            name={resource.name} 
-                            description={resource.description}  
-                            benefit={resource.benefit}
-                            key={resource.id}
-                        />))}
+            {
+                resources.length > 0 && 
+                <div className="flex flex-col gap-4 items-center">
+                    <div className="flex justify-center gap-8">
+                        {resources.map((resource, index) => ( (index % 2 !== 0 && index < startResource + 4 && index >= startResource) &&
+                            <ResourceCard 
+                                id={resource.id}
+                                name={resource.name} 
+                                description={resource.description}  
+                                benefit={resource.benefit}
+                                key={resource.id}
+                            />))}
+                    </div>
+                    <div className="flex justify-center gap-8">
+                        {resources.map((resource, index) => ( (index % 2 === 0 && index < startResource + 4 && index >= startResource) &&
+                            <ResourceCard 
+                                id={resource.id}
+                                name={resource.name} 
+                                description={resource.description}  
+                                benefit={resource.benefit}
+                                key={resource.id}
+                            />))}
+                    </div>
                 </div>
-                <div className="flex justify-center gap-8">
-                    {resources.map((resource, index) => ( (index % 2 === 0 && index < startResource + 4 && index >= startResource) &&
-                        <ResourceCard 
-                            id={resource.id}
-                            name={resource.name} 
-                            description={resource.description}  
-                            benefit={resource.benefit}
-                            key={resource.id}
-                        />))}
+            }
+            {
+                resources.length === 0 && 
+                <div className="flex justify-center items-center text-md font-bold text-red-500">
+                    No resources found, please search something else!
                 </div>
-            </div>
+            }
             <div className="flex items-center justify-center">
                 <button 
                     type="button" 
@@ -93,7 +102,8 @@ export const KeywordResources = (props: {userMessage: string}) => {
     }, [props.userMessage, isLoading]);
 
     return (
-        <div>
+        <div className="flex flex-col justify-center items-center gap-8">
+            <div className="flex justify-center text-lg font-bold">Keyword Search for "{props.userMessage}"</div>
             {isLoading && <LoadingSpinner />}
             {resources && <ViewResources resources={resources} />}
         </div>
@@ -116,9 +126,19 @@ export const PinnedResources = () => {
     }
     
     return (
-        <div>
+        <div className="flex flex-col justify-center items-center gap-8">
+            <div className="flex justify-center text-lg font-bold">Your Pinned Resources</div>
             {isLoading && <LoadingSpinner />}
             {pinned && <ViewResources resources={modifiedPinned} />}
+        </div>
+    )
+}
+
+export const AIResources = (props: {resources: resourceType[]}) => {
+    return (
+        <div className="flex flex-col justify-center items-center gap-8">
+            <div className="flex justify-center text-lg font-bold">Relevant Resources from AI Search</div>
+            <ViewResources resources={props.resources} />
         </div>
     )
 }
