@@ -3,6 +3,7 @@ import { api } from "~/utils/api";
 import { LoadingSpinner } from "./loading";
 import { AIResources, KeywordResources, PinnedResources } from "./resources";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 export default function AIChat(props: {isSignedIn: boolean}) {
     interface resourceType {
@@ -12,6 +13,8 @@ export default function AIChat(props: {isSignedIn: boolean}) {
         reqs?: string,
         benefit?: string
     }
+
+    const [isError, setIsError] = useState(false);
 
     const {mutate: sendPrompt, isLoading} = api.openai.chatCompletion.useMutation({
         onSuccess: (data) => {
@@ -32,7 +35,9 @@ export default function AIChat(props: {isSignedIn: boolean}) {
             }
         },
         onError: () => {
-            toast.error("Query failed, please try again later!")
+            toast.error("Query failed, please try again later!");
+            setIsError(true);
+            setAiMessage("");
         }
     });
     const [prompt, setPrompt] = useState("");
@@ -81,14 +86,49 @@ export default function AIChat(props: {isSignedIn: boolean}) {
         )
     }
 
+    const [numResources, setNumResources] = useState(2)
+
+    const FailMessage = () => {
+        return (
+            <div className="flex flex-col justify-center items-center gap-4">
+                <div>
+                    Something went wrong! Common issues are not being signed in, sending an empty prompt, or sending
+                    too many queries in too short of a timeframe. See our <Link href="/info/questions" className="text-blue-500 hover:underline">Questions</Link> page
+                    for details on how many queries you can send. Otherwise, the issue could be on the server side, which
+                    could be solved by simplifying the AI response.
+                </div>
+                <button  
+                    type="button"
+                    onClick={() => {
+                        if (numResources === 2) setNumResources(1);
+                        else (setNumResources(2))
+                    }}
+                    className="text-xs flex items-center focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                >
+                    {numResources === 2 && "Simplify response"}
+                    {numResources !== 2 && "Response simplified"}
+                </button>
+            </div>
+        )
+    }
+
     return (
         <div className="w-full flex flex-col gap-4 justify-center">
-            <div>Ask the AI:</div>
+            <div>
+                <h3 className="">Ask the AI:</h3>
+            </div>
             <form onSubmit={(e)=> {
                 e.preventDefault();
                 setUserMessage(prompt);
                 setResources([]);
-                sendPrompt({ prompt });
+                setIsError(false);
+                if (prompt !== "") {
+                    sendPrompt({ prompt, numResources });
+                } else {
+                    toast.error("Empty prompt!");
+                    setAiMessage("");
+                    setIsError(true);
+                }
             }}>
                 <div className="relative w-full">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -115,6 +155,7 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                 </div>
                 <div className="mb-3 font-normal text-gray-400 flex items-center justify-center">
                     {!isLoading ? aiMessage : (<LoadingSpinner size={36} />)}
+                    {isError && <FailMessage />}
                 </div>
             </div>
 

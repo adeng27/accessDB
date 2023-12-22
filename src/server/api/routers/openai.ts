@@ -21,8 +21,9 @@ export const openaiRouter = createTRPCRouter({
   chatCompletion: privateProcedure.input(
     z.object({
         prompt: z.string(),
+        numResources: z.number(),
     })
-  ).mutation(async ({ctx, input: { prompt } }) => {
+  ).mutation(async ({ctx, input: { prompt, numResources } }) => {
     const userId = ctx.userId;
 
     const { success } = await ratelimit.limit(userId);
@@ -45,7 +46,7 @@ export const openaiRouter = createTRPCRouter({
         role: "system",
         content: "You recommend scholarships for disabled students." + 
             "Answer can only include the provided resources. " +
-            "Answer can only include up to two resources. " + 
+            "Answer can only include up to " + numResources + " resources. " + 
             "Answer must be an explanation, not a restatement. " +
             "The provided resources are: " + 
             relevantResources?.map((resource) => `Name: ${resource.name}\nDescription: ${resource.description}\nRequirements: ${resource.reqs}\nBenefit: ${resource.providedBenefit}`).join("\n\n")
