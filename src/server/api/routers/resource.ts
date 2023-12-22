@@ -12,20 +12,42 @@ export const resourceRouter = createTRPCRouter({
   addResource: publicProcedure.input(z.object({
     name: z.string(), 
     description: z.string(), 
-    providedBenefit: z.string() 
+    reqs: z.string(),
+    providedBenefit: z.string(),
+    dueDate: z.string()
   })).mutation(async ({ ctx, input }) => {
+    const checkIfExists = await ctx.db.resource.findFirst({
+      where: {
+        name: input.name
+      }
+    })
+
+    if (checkIfExists) {
+      const embedding = await getEmbedding(
+        checkIfExists.name + "\n" + checkIfExists.description + "\n" + checkIfExists.reqs + "\n" + checkIfExists.providedBenefit
+      );
+      await resourcesIndex.upsert([
+        {
+          id: checkIfExists.id,
+          values: embedding,
+        }
+      ])
+
+      return checkIfExists
+    }
     const newResource = await ctx.db.resource.create({
       data: {
         name: input.name,
         description: input.description,
+        reqs: input.reqs,
         providedBenefit: input.providedBenefit,
+        dueDate: input.dueDate,
         pinnedBy: "",
-        // organizationId: "clpemeppo0000rg2v03lp9ocu"
       }
     })
 
     const embedding = await getEmbedding(
-      newResource.name + "\n" + newResource.description + "\n" + newResource.providedBenefit
+      newResource.name + "\n" + newResource.description + "\n" + newResource.reqs + "\n" + newResource.providedBenefit
     );
 
     await resourcesIndex.upsert([
@@ -44,6 +66,7 @@ export const resourceRouter = createTRPCRouter({
         OR: [
           { name: { contains: input } },
           { description: { contains: input }, },
+          { reqs: { contains: input } },
           { providedBenefit: { contains: input } },
         ]
       },

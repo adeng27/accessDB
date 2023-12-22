@@ -3,7 +3,7 @@ import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { z } from "zod";
 import openai, { getEmbedding } from "~/lib/openai";
 
-import { createTRPCRouter, publicProcedure, privateProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 import { resourcesIndex } from "~/server/pinecone";
 
 import { Ratelimit } from "@upstash/ratelimit";
@@ -46,7 +46,7 @@ export const openaiRouter = createTRPCRouter({
         content: "You are an assistant that finds resources for disabilities. " + 
             "You answer user's questions only based off the provided resources. " + 
             "The provided resources are: " + 
-            relevantResources?.map((resource) => `Name: ${resource.name}\nDescription: ${resource.description}\nBenefit: ${resource.providedBenefit}`).join("\n\n")
+            relevantResources?.map((resource) => `Name: ${resource.name}\nDescription: ${resource.description}\nRequirements: ${resource.reqs}\nBenefit: ${resource.providedBenefit}`).join("\n\n")
     }
 
     const response  = await openai.chat.completions.create({

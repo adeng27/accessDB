@@ -13,29 +13,11 @@ generator client {
 
 model Resource {
   id              String       @id @default(cuid())
-  addedAt         DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
   name            String
-  // organizationId  String
-  // organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   description     String       @db.VarChar(300)
+  reqs            String       @db.VarChar(300)
   providedBenefit String       @db.VarChar(240)
-  dueDate         DateTime?
-  criteria        Criteria[]
+  dueDate         String
   pinnedBy        String
-
-  // @@index([organizationId])
 }
 
-// model Organization {
-//   id        String     @id @default(cuid())
-//   name      String     @unique
-//   resources Resource[]
-// }
-
-model Criteria {
-  id          String @id @default(cuid())
-  requirement String @unique
-
-  resources Resource[]
-}

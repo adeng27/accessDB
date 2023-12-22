@@ -7,6 +7,7 @@ interface resourceType {
     id?: string,
     name?: string,
     description?: string,
+    reqs?: string,
     benefit?: string
 }
 
@@ -37,7 +38,8 @@ export const ViewResources = (props: {resources: resourceType[]}) => {
                             <ResourceCard 
                                 id={resource.id}
                                 name={resource.name} 
-                                description={resource.description}  
+                                description={resource.description} 
+                                reqs={resource.reqs} 
                                 benefit={resource.benefit}
                                 key={resource.id}
                             />))}
@@ -48,6 +50,7 @@ export const ViewResources = (props: {resources: resourceType[]}) => {
                                 id={resource.id}
                                 name={resource.name} 
                                 description={resource.description}  
+                                reqs={resource.reqs}
                                 benefit={resource.benefit}
                                 key={resource.id}
                             />))}
@@ -88,6 +91,7 @@ export const KeywordResources = (props: {userMessage: string}) => {
                 id: arr[i]?.id,
                 name: arr[i]?.name,
                 description: arr[i]?.description,
+                reqs: arr[i]?.reqs,
                 benefit: arr[i]?.providedBenefit
             }
             temp.push(resource);
@@ -120,6 +124,7 @@ export const PinnedResources = () => {
             id: pinned[i]?.id,
             name: pinned[i]?.name,
             description: pinned[i]?.description,
+            reqs: pinned[i]?.reqs,
             benefit: pinned[i]?.providedBenefit
         }
         modifiedPinned.push(resource);

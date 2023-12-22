@@ -1,6 +1,5 @@
 import { resourceRouter } from "~/server/api/routers/resource";
 import { createTRPCRouter } from "~/server/api/trpc";
-import { criteriaRouter } from "./routers/criteria";
 import { openaiRouter } from "./routers/openai";
 
 /**
@@ -10,7 +9,6 @@ import { openaiRouter } from "./routers/openai";
  */
 export const appRouter = createTRPCRouter({
   resource: resourceRouter,
-  criteria: criteriaRouter,
   openai: openaiRouter,
 });
 

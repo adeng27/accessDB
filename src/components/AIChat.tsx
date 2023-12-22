@@ -10,6 +10,7 @@ export default function AIChat(props: {isSignedIn: boolean}) {
         id?: string,
         name?: string,
         description?: string,
+        reqs?: string,
         benefit?: string
     }
 
@@ -24,6 +25,7 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                     id: data.relevantResources[i]?.id,
                     name: data.relevantResources[i]?.name,
                     description: data.relevantResources[i]?.description,
+                    reqs: data.relevantResources[i]?.reqs,
                     benefit: data.relevantResources[i]?.providedBenefit
                 }
                 resources.push(resource);
