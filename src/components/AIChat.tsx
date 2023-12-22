@@ -53,7 +53,7 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                         if (props.isSignedIn) setSelectedButton([true, false, false]);
                         else toast.error("Please sign in!")
                     }}
-                    className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 disabled:bg-gray-600 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+                    className="px-4 py-2 text-sm font-medium border rounded-s-lg disabled:bg-gray-600 focus:z-10 focus:ring-2 bg-gray-700 border-gray-600 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
                 >
                     AI Matches
                 </button>
@@ -63,7 +63,7 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                         if (props.isSignedIn) setSelectedButton([false, true, false]);
                         else toast.error("Please sign in!")
                     }}
-                    className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 disabled:bg-gray-600 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+                    className="px-4 py-2 text-sm font-medium border-t border-b  disabled:bg-gray-600  focus:z-10 focus:ring-2  bg-gray-700 border-gray-600 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
                 >
                     Keyword Search
                 </button>
@@ -73,7 +73,7 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                         if (props.isSignedIn) setSelectedButton([false, false, true]);
                         else toast.error("Please sign in!")
                     }}
-                    className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 disabled:bg-gray-600 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+                    className="px-4 py-2 text-sm font-medium border rounded-e-lg disabled:bg-gray-600 focus:z-10 focus:ring-2 bg-gray-700 border-gray-600 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
                 >
                     Pinned Resources
                 </button>
@@ -92,7 +92,7 @@ export default function AIChat(props: {isSignedIn: boolean}) {
             }}>
                 <div className="relative w-full">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                     </div>
@@ -101,19 +101,19 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                         placeholder={props.isSignedIn ? "Find a resource!" : "Sign up for free to use AI search!"}
                         onChange={(e) => setPrompt(e.target.value)}
                         disabled={ props.isSignedIn ? false : true }
-                        className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="block w-full p-4 ps-10 text-sm  border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                     />
                     <button type="submit" onClick={() => {
                         if (!props.isSignedIn) toast.error("Please sign in!")
-                    }} className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">SEND</button>
+                    }} className="text-white absolute end-2.5 bottom-2.5 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">SEND</button>
                 </div>
             </form>
 
-            <div className="w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <div className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
+            <div className="w-full p-6 border rounded-lg shadow bg-gray-800 border-gray-700">
+                <div className='mb-2 text-2xl font-bold tracking-tight text-white'>
                     {userMessage}
                 </div>
-                <div className="mb-3 font-normal text-gray-700 dark:text-gray-400 flex items-center justify-center">
+                <div className="mb-3 font-normal text-gray-400 flex items-center justify-center">
                     {!isLoading ? aiMessage : (<LoadingSpinner size={36} />)}
                 </div>
             </div>

@@ -271,7 +271,7 @@ export default function Home() {
         </Head>
         <main className="flex min-h-screen justify-center h-fit">
           <div className="h-full w-full flex flex-col items-center gap-4">
-            <div className="w-10/12 md:w-8/12">
+            <div className="md:w-9/12 w-10/12">
               <AIChat isSignedIn={ user.isSignedIn ? user.isSignedIn : false } />
             </div>
           </div>

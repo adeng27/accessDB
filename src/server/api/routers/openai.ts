@@ -33,7 +33,7 @@ export const openaiRouter = createTRPCRouter({
     const embedding = await getEmbedding(prompt);
     const vectorQueryResponse = await resourcesIndex.query({
         vector: embedding,
-        topK: 6
+        topK: 8
     });
 
     const relevantIds = vectorQueryResponse.matches.map((match) => match.id);
@@ -43,8 +43,10 @@ export const openaiRouter = createTRPCRouter({
 
     const systemMessage: ChatCompletionMessageParam = {
         role: "system",
-        content: "You are an assistant that finds resources for disabilities. " + 
-            "You answer user's questions only based off the provided resources. " + 
+        content: "You recommend scholarships for disabled students." + 
+            "Answer can only include the provided resources. " +
+            "Answer can only include up to two resources. " + 
+            "Answer must be an explanation, not a restatement. " +
             "The provided resources are: " + 
             relevantResources?.map((resource) => `Name: ${resource.name}\nDescription: ${resource.description}\nRequirements: ${resource.reqs}\nBenefit: ${resource.providedBenefit}`).join("\n\n")
     }
