@@ -108,7 +108,7 @@ export const KeywordResources = (props: {userMessage: string}) => {
     return (
         <div className="flex flex-col justify-center items-center gap-8">
             <div className="flex justify-center text-lg font-bold">Keyword Search for "{props.userMessage}"</div>
-            {isLoading && <LoadingSpinner />}
+            {isLoading && <LoadingSpinner size={64} />}
             {resources && <ViewResources resources={resources} />}
         </div>
     )
@@ -133,7 +133,7 @@ export const PinnedResources = () => {
     return (
         <div className="flex flex-col justify-center items-center gap-8">
             <div className="flex justify-center text-lg font-bold">Your Pinned Resources</div>
-            {isLoading && <LoadingSpinner />}
+            {isLoading && <LoadingSpinner size={64} />}
             {pinned && <ViewResources resources={modifiedPinned} />}
         </div>
     )

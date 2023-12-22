@@ -10,8 +10,8 @@ export default function About() {
                     <p>
                         Thanks for using Access DB! This site was created by Alastair Deng with input from Michael Liu. 
                         Through a class focused on designing solutions for those with disabilities, we learned that finding 
-                        disability resources is incredibly hard, so we created Access DB! If you have questions that aren't, 
-                        answered <Link href="/info/questions" className="text-blue-500 hover:underline">here</Link> feel 
+                        disability resources is incredibly hard, so we created Access DB! If you have questions that aren't 
+                        answered <Link href="/info/questions" className="text-blue-500 hover:underline">here</Link>, feel 
                         free to email <span className="underline">adeng27@stanford.edu</span>!
                     </p>
                     <p>

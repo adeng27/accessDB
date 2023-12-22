@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api"
 import { LoadingSpinner } from "./loading";
+import toast from "react-hot-toast";
 
 export const ResourceCard = (props: {id: string | undefined, name: string | undefined, description: string | undefined, reqs: string | undefined , benefit: string | undefined}) => {
     const { mutate: pin } = api.resource.pin.useMutation({
@@ -8,6 +9,9 @@ export const ResourceCard = (props: {id: string | undefined, name: string | unde
             if (data) setPinMessage(true)
             else setPinMessage(false)
             isPinned = pinMessage;
+        },
+        onError: () => {
+            toast.error("Something went wrong!")
         }
     });
     let { data: isPinned, isLoading } = api.resource.isPinned.useQuery(props.id ? props.id : "");
