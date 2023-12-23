@@ -12,10 +12,6 @@ export const Navbar = (props: {isSignedIn: boolean}) => {
                   <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Access DB</span>
               </Link>
               <button data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center justify-center md:hidden" aria-controls="navbar-default" aria-expanded="false">
-                  {/* <span className="sr-only">Open main menu</span>
-                  <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-                  </svg> */}
                   { !props.isSignedIn && 
                         <SignInButton>
                           <button type="button" className="flex items-center justify-center text-white focus:outline-none focus:ring-4 font-medium rounded-full text-xs p-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Sign In</button>

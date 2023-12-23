@@ -24,10 +24,10 @@ export const ResourceCard = (props: {id: string | undefined, name: string | unde
     return (
         <div>
             <a className="flex flex-col gap-4 max-w-sm p-6 border rounded-lg shadow bg-gray-800 border-gray-700 hover:bg-gray-700">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">{props.name ? props.name : "Something went wrong"}</h5>
-                <p className="font-normal text-gray-400">{props.description ? props.description : "Something went wrong"}</p>
-                <p className="font-extrabold text-gray-400">{props.reqs ? props.reqs : "Something went wrong"}</p>
-                <p className="text-xl font-extrabold text-gray-400">{props.benefit ? props.benefit : "Something went wrong"}</p>
+                <h5 className="md:text-2xl text-base font-bold tracking-tight text-white">{props.name ? props.name : "Something went wrong"}</h5>
+                <p className="font-normal md:text-base text-sm text-gray-400">{props.description ? props.description : "Something went wrong"}</p>
+                <p className="font-extrabold md:text-base text-sm text-gray-400">{props.reqs ? props.reqs : "Something went wrong"}</p>
+                <p className="md:text-xl text-base font-extrabold text-gray-400">{props.benefit ? props.benefit : "Something went wrong"}</p>
                 <div className="flex justify-center">
                     <button 
                         type="button" 
