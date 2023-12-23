@@ -15,9 +15,9 @@ export default function About() {
                         free to email <span className="underline">adeng27@stanford.edu</span>!
                     </p>
                     <p>
-                        Follow Alastair Deng on <Link href="#" className="text-blue-500 hover:underline">Github</Link>
-                        , <Link href="#" className="text-blue-500 hover:underline">LinkedIn</Link>, 
-                        and <Link href="#" className="text-blue-500 hover:underline">Instagram</Link>
+                        Follow Alastair Deng on <Link href="https://github.com/adeng27" target="_blank" className="text-blue-500 hover:underline">Github</Link>
+                        , <Link href="https://www.linkedin.com/in/alastair-deng/" target="_blank" className="text-blue-500 hover:underline">LinkedIn</Link>, 
+                        and <Link href="https://www.instagram.com/alastairdeng/?hl=en" target="_blank" className="text-blue-500 hover:underline">Instagram</Link>
                     </p>
                     <p>
                         Follow Michael Liu on <Link href="#" className="text-blue-500 hover:underline">LinkedIn</Link>

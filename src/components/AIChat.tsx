@@ -95,7 +95,7 @@ export default function AIChat(props: {isSignedIn: boolean}) {
                     Something went wrong! Common issues are not being signed in, sending an empty prompt, or sending
                     too many queries in too short of a timeframe. See our <Link href="/info/questions" className="text-blue-500 hover:underline">Questions</Link> page
                     for details on how many queries you can send. Otherwise, the issue could be on the server side, which
-                    could be solved by simplifying the AI response.
+                    could be solved by simplifying the AI response or writing a more specific query.
                 </div>
                 <button  
                     type="button"
