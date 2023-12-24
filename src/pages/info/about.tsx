@@ -20,7 +20,7 @@ export default function About() {
                         and <Link href="https://www.instagram.com/alastairdeng/?hl=en" target="_blank" className="text-blue-500 hover:underline">Instagram</Link>
                     </p>
                     <p>
-                        Follow Michael Liu on <Link href="#" className="text-blue-500 hover:underline">LinkedIn</Link>
+                        Follow Michael Liu on <Link href="https://www.linkedin.com/in/michael-liu-214837213/" target="_blank" className="text-blue-500 hover:underline">LinkedIn</Link>
                     </p>
                 </div>
             </div>
