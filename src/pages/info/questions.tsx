@@ -5,7 +5,7 @@ export default function Questions() {
         <Layout>
             <div className="h-fit min-h-screen flex flex-col items-center gap-12">
                 <h1 className="text-3xl font-extrabold">Questions</h1>
-                <div className="flex flex-col gap-8">
+                <div className="m-4 md:m-0 flex flex-col gap-8">
                     <IndividualQuestion 
                         question={"How does Access DB work?"} 
                         answer={"It uses GPT-3.5 Turbo with Vector Embeddings to return a well-formatted response that should recommend disability resources that might help!"}

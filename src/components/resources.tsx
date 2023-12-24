@@ -81,7 +81,7 @@ export const ViewResources = (props: {resources: resourceType[]}) => {
             }
             {
                 resources.length === 0 && 
-                <div className="flex justify-center items-center text-md font-bold text-red-500">
+                <div className="flex justify-center items-center text-sm md:text-md font-bold text-red-500">
                     No resources found, please search something else!
                 </div>
             }

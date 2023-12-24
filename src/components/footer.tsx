@@ -14,16 +14,16 @@ export default function Footer() {
                 </div>
                 <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                     <div>
-                        <h2 className="mb-6 text-sm font-semibold uppercase text-white">Follow us</h2>
+                        <h2 className="mb-6 text-sm font-semibold uppercase text-white">Follow</h2>
                         <ul className="text-gray-400 font-medium flex flex-col gap-4">
                             <li>
-                                <Link href="#" className="hover:underline ">Github</Link>
+                                <Link href="https://github.com/adeng27" target="_blank" className="hover:underline ">Github</Link>
                             </li>
                             <li>
-                                <Link href="#" className="hover:underline">Instagram</Link>
+                                <Link href="https://www.instagram.com/alastairdeng/?hl=en" target="_blank" className="hover:underline">Instagram</Link>
                             </li>
                             <li>
-                                <Link href="#" className="hover:underline">LinkedIn</Link>
+                                <Link href="https://www.linkedin.com/in/alastair-deng/" target="_blank" className="hover:underline">LinkedIn</Link>
                             </li>
                         </ul>
                     </div>

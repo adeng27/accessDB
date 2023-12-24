@@ -6,7 +6,7 @@ export default function About() {
         <Layout>
             <div className="h-fit min-h-screen flex flex-col items-center gap-12">
                 <h1 className="text-3xl font-extrabold">About</h1>
-                <div className="max-w-3xl flex flex-col gap-8">
+                <div className="m-4 md:m-0 max-w-3xl flex flex-col gap-8">
                     <p>
                         Thanks for using Access DB! This site was created by Alastair Deng with input from Michael Liu. 
                         Through a class focused on designing solutions for those with disabilities, we learned that finding 
