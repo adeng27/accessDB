@@ -1,64 +1,64 @@
 import { z } from "zod";
-import { getEmbedding } from "~/lib/openai";
-
 import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
-import { resourcesIndex } from "~/server/pinecone";
+// import { getEmbedding } from "~/lib/openai"; //for addResource
+// import { resourcesIndex } from "~/server/pinecone"; //for addResource
 
 export const resourceRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.resource.findMany();
   }),
 
-  addResource: publicProcedure.input(z.object({
-    name: z.string(), 
-    description: z.string(), 
-    reqs: z.string(),
-    providedBenefit: z.string(),
-    dueDate: z.string()
-  })).mutation(async ({ ctx, input }) => {
-    const checkIfExists = await ctx.db.resource.findFirst({
-      where: {
-        name: input.name
-      }
-    })
+  //Uncomment to addResources
+  // addResource: publicProcedure.input(z.object({
+  //   name: z.string(), 
+  //   description: z.string(), 
+  //   reqs: z.string(),
+  //   providedBenefit: z.string(),
+  //   dueDate: z.string()
+  // })).mutation(async ({ ctx, input }) => {
+  //   const checkIfExists = await ctx.db.resource.findFirst({
+  //     where: {
+  //       name: input.name
+  //     }
+  //   })
 
-    if (checkIfExists) {
-      const embedding = await getEmbedding(
-        checkIfExists.name + "\n" + checkIfExists.description + "\n" + checkIfExists.reqs + "\n" + checkIfExists.providedBenefit
-      );
-      await resourcesIndex.upsert([
-        {
-          id: checkIfExists.id,
-          values: embedding,
-        }
-      ])
+  //   if (checkIfExists) {
+  //     const embedding = await getEmbedding(
+  //       checkIfExists.name + "\n" + checkIfExists.description + "\n" + checkIfExists.reqs + "\n" + checkIfExists.providedBenefit
+  //     );
+  //     await resourcesIndex.upsert([
+  //       {
+  //         id: checkIfExists.id,
+  //         values: embedding,
+  //       }
+  //     ])
 
-      return checkIfExists
-    }
-    const newResource = await ctx.db.resource.create({
-      data: {
-        name: input.name,
-        description: input.description,
-        reqs: input.reqs,
-        providedBenefit: input.providedBenefit,
-        dueDate: input.dueDate,
-        pinnedBy: "",
-      }
-    })
+  //     return checkIfExists
+  //   }
+  //   const newResource = await ctx.db.resource.create({
+  //     data: {
+  //       name: input.name,
+  //       description: input.description,
+  //       reqs: input.reqs,
+  //       providedBenefit: input.providedBenefit,
+  //       dueDate: input.dueDate,
+  //       pinnedBy: "",
+  //     }
+  //   })
 
-    const embedding = await getEmbedding(
-      newResource.name + "\n" + newResource.description + "\n" + newResource.reqs + "\n" + newResource.providedBenefit
-    );
+  //   const embedding = await getEmbedding(
+  //     newResource.name + "\n" + newResource.description + "\n" + newResource.reqs + "\n" + newResource.providedBenefit
+  //   );
 
-    await resourcesIndex.upsert([
-      {
-        id: newResource.id,
-        values: embedding,
-      }
-    ])
+  //   await resourcesIndex.upsert([
+  //     {
+  //       id: newResource.id,
+  //       values: embedding,
+  //     }
+  //   ])
 
-    return newResource;
-  }),
+  //   return newResource;
+  // }),
 
   keywordSearch: privateProcedure.input(z.string()).query(({ctx, input}) => {
     return ctx.db.resource.findMany({

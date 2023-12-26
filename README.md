@@ -19,5 +19,4 @@ This application utilizes the T3-Stack. Included technologies are:
 
 This application was created by Alastair Deng with input from Michael Liu.
 
-Alastair Deng's [Github](https://github.com/adeng27)
-Michael Liu's [LinkedIn](https://www.linkedin.com/in/michael-liu-214837213/)
+Follow Alastair Deng's [Github](https://github.com/adeng27) and Michael Liu's [LinkedIn](https://www.linkedin.com/in/michael-liu-214837213/) for more!
