@@ -2,206 +2,98 @@ import Head from "next/head";
 import { useUser } from "@clerk/nextjs";
 import AIChat from "~/components/AIChat";
 import Layout from "~/components/layout";
+import { useState } from "react";
+import { api } from "~/utils/api";
+
+//to measure 300 characters long
+// const threeHundred = [
+//   [
+//     {
+//       description: "Graduating high school seniors and students in their first three years of college diagnosed with and in treatment for bipolar disorder are eligible. Requirements include an essay and student transcripts. Students can use the award for tuition, books, housing, and other educational expenses.ddddddddd"
+//     }
+//   ]
+// ]
 
 // const newData = [
 //   [
 //     {
-//       name: "1800 Wheelchair Scholarship Fund",
-//       description: "Annual award for undergraduate or graduate students addressing mobility issues and personal challenges.",
-//       reqs: "Undergraduate or Graduate Students",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
+//       name: "Team See Possibilities Scholarship",
+//       description: "Applicants must meet Supplemental Security Income guidelines to be considered legally blind. Students may pursue undergraduate or graduate degrees or a professional trade. In addition to the financial award, students also benefit from the organization's mentorship program.",
+//       reqs: "Meet Supplemental Security Income guidelines, Legally Blind Students pursuing Undergraduate, Graduate Degrees, or Professional Trade",
+//       dueDate: "April 28, 2023",
+//       providedBenefit: "$5,000"
+//     },
+//   ],
+//   [
+//     {
+//       name: "Ruby's Rainbow College Scholarship",
+//       description: "Ruby's Rainbow supports scholarships for students with Down syndrome seeking postsecondary education and training. Applicants must be at least 18 by July 1 of the award year. The scholarship committee considers personal goals, accomplishments, and community impact.",
+//       reqs: "Students with Down syndrome pursuing postsecondary education, Minimum age of 18 by July 1 of the award year",
+//       dueDate: "April 17, 2023",
+//       providedBenefit: "$1,000-$10,000"
 //     },
 //     {
-//       name: "180 Medical Scholarship",
-//       description: "Open to full-time college students with specific medical conditions like spinal cord injuries, spina bifida, and more.",
-//       reqs: "Full-time College Students",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
+//       name: "Adults With Autism Scholarship",
+//       description: "Autism Delaware offers this scholarship to adults in the state seeking a college degree or postsecondary certification. Applicants must provide a cover letter discussing career plans, a resume, letters of recommendation, and evidence of an Autism Spectrum Disorder.",
+//       reqs: "Adults in Delaware pursuing a college degree or postsecondary certification, Evidence of Autism Spectrum Disorder",
+//       dueDate: "April 28, 2023",
+//       providedBenefit: "$1,000"
 //     },
 //     {
-//       name: "Elaine Chapin Fund MS Scholarship",
-//       description: "Supports St. Louis, MO-area students impacted by multiple sclerosis during post-secondary education.",
-//       reqs: "Students in St. Louis, MO area",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "Brighter Tomorrow Grant",
-//       description: "Available to individuals with multiple sclerosis to assist with educational supplies and other services.",
-//       reqs: "Individuals with Multiple Sclerosis",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "Little People of America Scholarship",
-//       description: "Offers scholarships to undergraduate students with diagnosed forms of dwarfism or family members of dwarfs.",
-//       reqs: "Undergraduate Students, LPA Members",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "AbbVie CF Scholarship",
-//       description: "Recognizes exceptional students with Cystic Fibrosis displaying academic excellence, community involvement, and creativity.",
-//       reqs: "Students with Cystic Fibrosis",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "Elizabeth Nash Foundation Scholarship",
-//       description: "Open to U.S. citizens with Cystic Fibrosis pursuing undergraduate or graduate studies at accredited US-based colleges or universities.",
-//       reqs: "U.S. Citizens, Undergraduate or Graduate Students",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
+//       name: "Kerry Magro Scholarship Program",
+//       description: "Current high school and college students may apply for this annual award to attend a postsecondary institution in the 2023-2024 school year. The application requires a short biography, an Autism Spectrum diagnosis, a resume, a letter of reference, and an essay.",
+//       reqs: "Current high school and college students applying for the 2023-2024 school year, Autism Spectrum diagnosis",
+//       dueDate: "April 24, 2023",
+//       providedBenefit: "$500"
 //     }
 //   ],
 //   [
 //     {
-//       name: "Microsoft Disability Scholarship",
-//       description: "Renewable scholarship for high school seniors with disabilities aspiring to a career in the technology industry.",
-//       reqs: "High School Seniors",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
+//       name: "ABC Law Centers Cerebral Palsy Scholarship",
+//       description: "This scholarship welcomes applications from students with cerebral palsy and a 3.0 or higher GPA seeking to enroll in an accredited college or university. The application requires an essay or a creative project.",
+//       reqs: "Students with cerebral palsy and a 3.0 or higher GPA seeking enrollment in an accredited college or university",
+//       dueDate: "July 31, 2023",
+//       providedBenefit: "$1,000"
 //     },
 //     {
-//       name: "Foundation for Science and Disability Grant",
-//       description: "Available to fourth-year undergraduate students accepted to graduate or professional school and graduate students pursuing degrees in specific fields.",
-//       reqs: "Undergraduate and Graduate Students",
-//       dueDate: "Varies",
-//       providedBenefit: "Grant"
+//       name: "Jared Monroe Foundation Scholarship",
+//       description: "Graduating high school seniors and students in their first three years of college diagnosed with and in treatment for bipolar disorder are eligible. Requirements include an essay and student transcripts. Students can use the award for tuition, books, housing, and other educational expenses.",
+//       reqs: "Graduating high school seniors and students in their first three years of college diagnosed with and in treatment for bipolar disorder",
+//       dueDate: "May 1, 2023",
+//       providedBenefit: "$500-$2,300"
 //     },
 //     {
-//       name: "Incight Scholarship",
-//       description: "For undergraduate and graduate students with documented disabilities who are residents of California, Oregon, or Washington State.",
-//       reqs: "Residents of California, Oregon, or Washington State",
-//       dueDate: "Varies",
-//       providedBenefit: "Grant"
-//     },
-//     {
-//       name: "Joe Cleres and Don Sage Scholarship Program",
-//       description: "For students with mental or physical disabilities pursuing education at institutions that require tuition.",
-//       reqs: "Students with Disabilities",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     }
-//   ],  
-//   [
-//     {
-//       name: "Cochlear Scholarships",
-//       description: "Open to undergraduate or graduate students who are U.S. or Canadian citizens and recipients of Cochlear Nucleus, Baha, or Osia hearing devices.",
-//       reqs: "Undergraduate and Graduate Students",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "Sertoma International Hard of Hearing and Deaf Scholarship",
-//       description: "For U.S. citizens with clinically significant bilateral hearing loss, graduating from high school, or undergraduate students pursuing bachelor’s degrees.",
-//       reqs: "High School Seniors and Undergraduate Students",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "American Speech-Language-Hearing Foundation Scholarship",
-//       description: "Offered to disabled undergraduate seniors accepted into a master’s program or students currently pursuing a master’s or doctoral degree in communication sciences and disorders.",
-//       reqs: "Undergraduate and Graduate Students",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "Graduate Fellowship Fund at Gallaudet University",
-//       description: "Provides financial assistance to deaf and hard-of-hearing graduates studying full-time in terminal degree programs.",
-//       reqs: "Deaf and Hard-of-Hearing Graduates",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "George H. Nofer Scholarship for Law and Public Policy",
-//       description: "For full-time graduate students with moderate to profound hearing loss attending accredited law or graduate schools for master’s or doctoral degrees in public policy or public administration.",
-//       reqs: "Graduate Students",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
+//       name: "Elevate Mental Health Awareness Scholarship",
+//       description: "High school seniors and college undergraduate and graduate students may apply. Applicants must have personally experienced challenges related to mental health or have had people close to them experience mental health issues. All majors and GPAs considered.",
+//       reqs: "High school seniors and college undergraduate and graduate students who have personally experienced challenges related to mental health or have had people close to them experience mental health issues",
+//       dueDate: "April 30, 2023",
+//       providedBenefit: "$500"
 //     }
 //   ],
 //   [
 //     {
-//       name: "American Council for the Blind Scholarship",
-//       description: "ACB offers educational scholarships for legally blind students at the undergraduate and graduate levels, as well as those attending technical college.",
-//       reqs: "Undergraduate, Graduate, and Technical College Students",
-//       dueDate: "Varies",
+//       name: "The Center for Reintegration Scholarship Program",
+//       description: "This scholarships supports students with bipolar disorder, schizophrenia, or schizoaffective disorder who are seeking a degree or certificate from accredited schools/training programs. Student's essay, recommendations, transcripts, and their cost of tuition and fees are considered.",
+//       reqs: "Individuals diagnosed with bipolar disorder, schizophrenia, or schizoaffective disorder seeking a degree or certificate from accredited schools and training programs",
+//       dueDate: "January 31, 2024",
 //       providedBenefit: "Scholarship"
 //     },
 //     {
-//       name: "National Federation of the Blind Scholarship Program",
-//       description: "Mary P. Oenslager Scholastic Achievement awards are presented to Learning Ally members completing undergraduate or graduate degrees, blind or visually impaired, for academic achievement, outstanding leadership, and service.",
-//       reqs: "Undergraduate and Graduate Students",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "AER William and Dorothy Ferrell Scholarship",
-//       description: "The William and Dorothy Ferrell Scholarship, awarded every other year in even years, goes to two selected applicants who are legally blind and studying for a career in services to persons who are blind or visually impaired.",
-//       reqs: "Students Studying for a Career in Services to Persons with Visual Impairments",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
+//       name: "180 Medical Scholarship Program",
+//       description: "Applicants must be under a doctor's care for conditions such as spinal cord injury, spina bifida, transverse myelitis, neurogenic bladder, or ostomy. The scholarship supports undergraduate study at two-year and four-year colleges or graduate study.",
+//       reqs: "Applicants under a doctor's care for conditions like spinal cord injury, spina bifida, transverse myelitis, neurogenic bladder, or ostomy, pursuing undergraduate or graduate study",
+//       dueDate: "June 1, 2023",
+//       providedBenefit: "$1,000"
 //     }
-//   ],
-//   [
-//     {
-//       name: "Children’s Brain Tumor Foundation Scholarships",
-//       description: "Available to U.S. students in undergraduate, graduate, or technical degree programs, diagnosed with a brain or spinal cord tumor before the age of 21.",
-//       reqs: "Undergraduate, Graduate, or Technical Degree Students",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "Diabetes Scholars Program",
-//       description: "Awards scholarships to students entering college and living with type 1 diabetes.",
-//       reqs: "Incoming College Students with Type 1 Diabetes",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "Eric Marder Scholarship Program",
-//       description: "Open to patients with a primary immunodeficiency as classified by the WHO, for undergraduate students attending or entering college or a technical training school.",
-//       reqs: "Undergraduate Students with Primary Immunodeficiency",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "Hemophilia Federation of America Scholarships",
-//       description: "Available to students with a bleeding disorder seeking post-secondary education from a college, university, or trade school.",
-//       reqs: "Students with Bleeding Disorders",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "National Collegiate Cancer Foundation Scholarships",
-//       description: "Offered to students who are cancer survivors or current cancer patients, attending or planning to attend an accredited college, university, or vocational institution.",
-//       reqs: "Cancer Survivors or Current Patients",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "PAF Scholarships for Survivors",
-//       description: "Supports U.S. citizens pursuing undergraduate or graduate studies, diagnosed with or treated for cancer or chronic disease.",
-//       reqs: "Undergraduate or Graduate Students with Cancer or Chronic Disease",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     },
-//     {
-//       name: "UCB Family Epilepsy Scholarship Program",
-//       description: "Offers educational scholarships to undergraduate and graduate students living with epilepsy, and family members and caregivers of those with epilepsy.",
-//       reqs: "Students with Epilepsy and Family Members/Caregivers",
-//       dueDate: "Varies",
-//       providedBenefit: "Scholarship"
-//     }
-//   ],
+//   ]  
 // ]
 
 
 export default function Home() {
   //addResource function, if you want to use it uncomment the procedure 
   //in resource router and import `api` and `useState`
+
+  const user = useUser();
 
   // const [curName, setCurName] = useState("");
   // const { mutate } = api.resource.addResource.useMutation({
@@ -210,9 +102,7 @@ export default function Home() {
   //   }
   // });
 
-  const user = useUser();
-
-  //Uncomment for adding records
+  // Uncomment for adding records
   // const formatDate = (date: string) => {
   //   if (date === "") {
   //     return "January 1, 2025"

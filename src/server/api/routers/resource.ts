@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
-// import { getEmbedding } from "~/lib/openai"; //for addResource
-// import { resourcesIndex } from "~/server/pinecone"; //for addResource
+import { getEmbedding } from "~/lib/openai"; //for addResource
+import { resourcesIndex } from "~/server/pinecone"; //for addResource
 
 export const resourceRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
