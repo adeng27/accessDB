@@ -1,6 +1,8 @@
 # Access DB
 
-Website: [AccessDB](https://access-db.vercel.app/)
+Unfortunately, AccessDB's website is no longer being maintained. For questions, email [adeng27@stanford.edu](adeng27@stanford.edu).
+
+~~Website: [AccessDB](https://access-db.vercel.app/)~~
 
 ## Description
 
@@ -14,9 +16,3 @@ This application utilizes the T3-Stack. Included technologies are:
 - [Clerk](https://clerk.com/docs)
 - [OpenAI](https://platform.openai.com/docs/introduction)
 - [Pinecone](https://docs.pinecone.io/docs/overview)
-
-## Credits
-
-This application was created by Alastair Deng with input from Michael Liu.
-
-Follow Alastair Deng's [Github](https://github.com/adeng27) and Michael Liu's [LinkedIn](https://www.linkedin.com/in/michael-liu-214837213/) for more!
